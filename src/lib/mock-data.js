@@ -1,0 +1,317 @@
+import { generateId } from './utils';
+
+const today = new Date();
+function daysFromNow(n) {
+  const d = new Date(today);
+  d.setDate(d.getDate() + n);
+  return d.toISOString().split('T')[0];
+}
+function daysAgo(n) {
+  const d = new Date(today);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().split('T')[0];
+}
+
+export const MOCK_INVENTORY = [
+  {
+    id: generateId(),
+    name: 'Amul Taaza Milk 500ml',
+    quantity: 12,
+    unit: 'pkt',
+    category: 'Dairy',
+    expiryDate: daysFromNow(2),
+    addedDate: daysAgo(5),
+    costPrice: 22,
+    sellingPrice: 25,
+  },
+  {
+    id: generateId(),
+    name: 'Mother Dairy Curd 400g',
+    quantity: 8,
+    unit: 'pcs',
+    category: 'Dairy',
+    expiryDate: daysFromNow(1),
+    addedDate: daysAgo(3),
+    costPrice: 30,
+    sellingPrice: 35,
+  },
+  {
+    id: generateId(),
+    name: 'Amul Paneer 200g',
+    quantity: 5,
+    unit: 'pkt',
+    category: 'Dairy',
+    expiryDate: daysFromNow(3),
+    addedDate: daysAgo(2),
+    costPrice: 80,
+    sellingPrice: 90,
+  },
+  {
+    id: generateId(),
+    name: 'Britannia Bread',
+    quantity: 6,
+    unit: 'pkt',
+    category: 'Bakery',
+    expiryDate: daysFromNow(1),
+    addedDate: daysAgo(4),
+    costPrice: 35,
+    sellingPrice: 40,
+  },
+  {
+    id: generateId(),
+    name: 'Parle-G Biscuits 250g',
+    quantity: 24,
+    unit: 'pkt',
+    category: 'Snacks',
+    expiryDate: daysFromNow(45),
+    addedDate: daysAgo(10),
+    costPrice: 20,
+    sellingPrice: 25,
+  },
+  {
+    id: generateId(),
+    name: 'Maggi 2-Minute Noodles',
+    quantity: 30,
+    unit: 'pkt',
+    category: 'Packaged Food',
+    expiryDate: daysFromNow(90),
+    addedDate: daysAgo(7),
+    costPrice: 12,
+    sellingPrice: 14,
+  },
+  {
+    id: generateId(),
+    name: 'Aashirvaad Atta 5kg',
+    quantity: 3,
+    unit: 'pkt',
+    category: 'Grains & Flour',
+    expiryDate: daysFromNow(60),
+    addedDate: daysAgo(15),
+    costPrice: 260,
+    sellingPrice: 295,
+  },
+  {
+    id: generateId(),
+    name: 'Fortune Sunflower Oil 1L',
+    quantity: 7,
+    unit: 'pcs',
+    category: 'Oil & Ghee',
+    expiryDate: daysFromNow(120),
+    addedDate: daysAgo(20),
+    costPrice: 140,
+    sellingPrice: 160,
+  },
+  {
+    id: generateId(),
+    name: 'Lays Classic Salted 52g',
+    quantity: 15,
+    unit: 'pkt',
+    category: 'Snacks',
+    expiryDate: daysFromNow(30),
+    addedDate: daysAgo(5),
+    costPrice: 18,
+    sellingPrice: 20,
+  },
+  {
+    id: generateId(),
+    name: 'Coca-Cola 750ml',
+    quantity: 10,
+    unit: 'pcs',
+    category: 'Beverages',
+    expiryDate: daysFromNow(5),
+    addedDate: daysAgo(30),
+    costPrice: 35,
+    sellingPrice: 40,
+  },
+  {
+    id: generateId(),
+    name: 'Thums Up 2L',
+    quantity: 4,
+    unit: 'pcs',
+    category: 'Beverages',
+    expiryDate: daysFromNow(6),
+    addedDate: daysAgo(25),
+    costPrice: 75,
+    sellingPrice: 85,
+  },
+  {
+    id: generateId(),
+    name: 'Haldiram Namkeen Bhujia 200g',
+    quantity: 10,
+    unit: 'pkt',
+    category: 'Snacks',
+    expiryDate: daysFromNow(20),
+    addedDate: daysAgo(8),
+    costPrice: 55,
+    sellingPrice: 65,
+  },
+  {
+    id: generateId(),
+    name: 'Tata Salt 1kg',
+    quantity: 20,
+    unit: 'pkt',
+    category: 'Spices',
+    expiryDate: daysFromNow(365),
+    addedDate: daysAgo(30),
+    costPrice: 20,
+    sellingPrice: 24,
+  },
+  {
+    id: generateId(),
+    name: 'MDH Garam Masala 100g',
+    quantity: 8,
+    unit: 'pkt',
+    category: 'Spices',
+    expiryDate: daysFromNow(180),
+    addedDate: daysAgo(12),
+    costPrice: 70,
+    sellingPrice: 82,
+  },
+  {
+    id: generateId(),
+    name: 'Dettol Soap 75g',
+    quantity: 15,
+    unit: 'pcs',
+    category: 'Personal Care',
+    expiryDate: daysFromNow(300),
+    addedDate: daysAgo(14),
+    costPrice: 38,
+    sellingPrice: 45,
+  },
+  {
+    id: generateId(),
+    name: 'Surf Excel 1kg',
+    quantity: 6,
+    unit: 'pkt',
+    category: 'Personal Care',
+    expiryDate: daysFromNow(240),
+    addedDate: daysAgo(18),
+    costPrice: 180,
+    sellingPrice: 210,
+  },
+  {
+    id: generateId(),
+    name: 'India Gate Basmati Rice 1kg',
+    quantity: 4,
+    unit: 'pkt',
+    category: 'Grains & Flour',
+    expiryDate: daysFromNow(150),
+    addedDate: daysAgo(22),
+    costPrice: 120,
+    sellingPrice: 145,
+  },
+  {
+    id: generateId(),
+    name: 'Amul Butter 100g',
+    quantity: 3,
+    unit: 'pcs',
+    category: 'Dairy',
+    expiryDate: daysFromNow(4),
+    addedDate: daysAgo(6),
+    costPrice: 50,
+    sellingPrice: 56,
+  },
+  {
+    id: generateId(),
+    name: 'Kurkure Masala Munch',
+    quantity: 18,
+    unit: 'pkt',
+    category: 'Snacks',
+    expiryDate: daysFromNow(25),
+    addedDate: daysAgo(4),
+    costPrice: 8,
+    sellingPrice: 10,
+  },
+  {
+    id: generateId(),
+    name: 'Frooti Mango 200ml',
+    quantity: 20,
+    unit: 'pcs',
+    category: 'Beverages',
+    expiryDate: daysFromNow(7),
+    addedDate: daysAgo(10),
+    costPrice: 8,
+    sellingPrice: 10,
+  },
+  {
+    id: generateId(),
+    name: 'Nestle Everyday Milk Powder 200g',
+    quantity: 2,
+    unit: 'pkt',
+    category: 'Dairy',
+    expiryDate: daysFromNow(0),
+    addedDate: daysAgo(40),
+    costPrice: 90,
+    sellingPrice: 105,
+  },
+  {
+    id: generateId(),
+    name: 'Dabur Honey 250g',
+    quantity: 5,
+    unit: 'pcs',
+    category: 'Packaged Food',
+    expiryDate: daysFromNow(200),
+    addedDate: daysAgo(50),
+    costPrice: 140,
+    sellingPrice: 165,
+  },
+  {
+    id: generateId(),
+    name: 'Brooke Bond Taj Mahal Tea 250g',
+    quantity: 7,
+    unit: 'pkt',
+    category: 'Beverages',
+    expiryDate: daysFromNow(90),
+    addedDate: daysAgo(8),
+    costPrice: 130,
+    sellingPrice: 150,
+  },
+  {
+    id: generateId(),
+    name: 'Good Day Cashew Cookies',
+    quantity: 12,
+    unit: 'pkt',
+    category: 'Snacks',
+    expiryDate: daysFromNow(35),
+    addedDate: daysAgo(6),
+    costPrice: 25,
+    sellingPrice: 30,
+  },
+  {
+    id: generateId(),
+    name: 'Yakult Probiotic Drink',
+    quantity: 4,
+    unit: 'pcs',
+    category: 'Dairy',
+    expiryDate: daysFromNow(-1),
+    addedDate: daysAgo(10),
+    costPrice: 70,
+    sellingPrice: 80,
+  },
+];
+
+export const SAMPLE_INVOICE_TEXT = `SHARMA WHOLESALE DISTRIBUTORS
+Invoice #: INV-2024-0847
+Date: 05/04/2026
+---
+Amul Taaza Milk 500ml  x 20 pkt  @ 22
+Britannia Bread       x 10 pkt  @ 35
+Mother Dairy Curd 400g x 15 pcs @ 30
+Parle-G Biscuits 250g x 24 pkt  @ 20
+Maggi Noodles 4-pack  x 12 pkt  @ 48
+Coca-Cola 750ml       x 12 pcs  @ 35
+Amul Butter 100g      x 10 pcs  @ 50
+Frooti 200ml         x 24 pcs   @ 8
+Haldiram Bhujia 200g  x 8 pkt   @ 55
+Lays Classic 52g      x 20 pkt  @ 18
+---
+Total: Rs. 8,750
+Payment: Due in 15 days`;
+
+export const MOCK_ACTIVITY = [
+  { id: '1', action: 'Added 20 pkt of Amul Milk', time: '2 hours ago', type: 'add' },
+  { id: '2', action: 'Marked 5 Yakult as sold', time: '3 hours ago', type: 'sold' },
+  { id: '3', action: 'Imported invoice #INV-0846', time: 'Yesterday', type: 'import' },
+  { id: '4', action: 'Created flash sale for Bread', time: 'Yesterday', type: 'sale' },
+  { id: '5', action: 'Deleted expired Nestle Milk Powder', time: '2 days ago', type: 'delete' },
+];
