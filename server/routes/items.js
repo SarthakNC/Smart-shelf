@@ -36,6 +36,7 @@ router.post('/bulk', async (req, res) => {
     const enriched = created.map(enrichItem);
     res.status(201).json(enriched);
   } catch (err) {
+    console.error('Bulk Insert Error:', err.message, err.errors);
     res.status(400).json({ error: 'Failed to create items', details: err.message });
   }
 });

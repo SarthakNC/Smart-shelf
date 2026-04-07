@@ -14,7 +14,6 @@ const itemSchema = new mongoose.Schema(
     },
     unit: {
       type: String,
-      enum: ['pcs', 'kg', 'g', 'L', 'ml', 'pkt', 'dozen', 'box'],
       default: 'pcs',
     },
     category: {

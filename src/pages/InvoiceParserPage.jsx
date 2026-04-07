@@ -69,7 +69,7 @@ export default function InvoiceParserPage() {
       quantity: r.quantity,
       unit: r.unit,
       category: 'Other',
-      expiryDate: expiryStr,
+      expiryDate: r.expiryDate || expiryStr,
       costPrice: r.costPrice || 0,
       sellingPrice: r.costPrice ? Math.round(r.costPrice * 1.15) : 0,
     }));
