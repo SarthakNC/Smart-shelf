@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Zap } from 'lucide-react';
 import { useInventory } from '../context/InventoryContext';
-import { getFlashSaleSuggestions } from '../lib/mock-api';
+import { getFlashSaleSuggestions } from '../lib/api';
 import FlashSaleCard from '../components/flash-sale/FlashSaleCard';
 import DiscountExplainer from '../components/flash-sale/DiscountExplainer';
 import EmptyState from '../components/shared/EmptyState';
@@ -19,7 +19,7 @@ export default function FlashSalesPage() {
   const fetchSuggestions = async () => {
     setLoading(true);
     try {
-      const results = await getFlashSaleSuggestions(items);
+      const results = await getFlashSaleSuggestions();
       setSuggestions(results);
     } catch {
       addToast('Failed to load flash sale suggestions', 'error');

@@ -5,7 +5,7 @@ import ParsedInvoiceTable from '../components/invoice/ParsedInvoiceTable';
 import ParserExplainer from '../components/invoice/ParserExplainer';
 import EmptyState from '../components/shared/EmptyState';
 import { useInventory } from '../context/InventoryContext';
-import { parseInvoice } from '../lib/mock-api';
+import { parseInvoice } from '../lib/api';
 
 export default function InvoiceParserPage() {
   const { addBulkItems, addToast } = useInventory();

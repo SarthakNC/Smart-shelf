@@ -48,5 +48,5 @@ export const URGENCY = {
 export const NEAR_EXPIRY_THRESHOLD_DAYS = 7;
 export const LOW_STOCK_THRESHOLD = 5;
 
-export const SHOP_NAME = 'Sharma General Store';
+export const SHOP_NAME = 'Sarthak General Store';
 export const CURRENCY = '₹';

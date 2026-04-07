@@ -1,5 +1,17 @@
 import { Sparkles, Info, FileText, ArrowRight } from 'lucide-react';
-import { SAMPLE_INVOICE_TEXT } from '../../lib/mock-data';
+
+const SAMPLE_INVOICE_TEXT = `SHARMA WHOLESALE DISTRIBUTORS
+Invoice #: INV-2024-0847
+Date: 05/04/2026
+---
+Amul Taaza Milk 500ml  x 20 pkt  @ 22
+Britannia Bread       x 10 pkt  @ 35
+Mother Dairy Curd 400g x 15 pcs @ 30
+Parle-G Biscuits 250g x 24 pkt  @ 20
+Maggi Noodles 4-pack  x 12 pkt  @ 48
+---
+Total: Rs. 8,750
+Payment: Due in 15 days`;
 
 export default function InvoicePasteCard({ value, onChange, onParse, parsing }) {
   return (

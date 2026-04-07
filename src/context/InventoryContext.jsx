@@ -1,7 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { MOCK_INVENTORY } from '../lib/mock-data';
-import * as api from '../lib/mock-api';
-import { getDaysUntilExpiry, getItemStatus } from '../lib/utils';
+import * as api from '../lib/api';
 
 const InventoryContext = createContext(null);
 
@@ -17,18 +15,28 @@ export function InventoryProvider({ children }) {
     loadInventory();
   }, []);
 
-  // Recalculate KPIs and alerts when items change
+  // Refresh KPIs and alerts when items change
   useEffect(() => {
-    if (items.length >= 0) {
-      api.getKPIData(items).then(setKpis);
-      api.getAlerts(items).then(setAlerts);
-    }
+    refreshDashboard();
   }, [items]);
+
+  const refreshDashboard = useCallback(async () => {
+    try {
+      const [kpiData, alertData] = await Promise.all([
+        api.getKPIData(),
+        api.getAlerts(),
+      ]);
+      setKpis(kpiData);
+      setAlerts(alertData);
+    } catch {
+      // silently fail — KPIs are non-critical
+    }
+  }, []);
 
   const loadInventory = useCallback(async () => {
     setLoading(true);
     try {
-      const enriched = await api.fetchInventory(MOCK_INVENTORY);
+      const enriched = await api.fetchInventory();
       setItems(enriched);
     } catch {
       addToast('Failed to load inventory', 'error');
@@ -73,13 +81,9 @@ export function InventoryProvider({ children }) {
 
   const addBulkItems = useCallback(async (newItems) => {
     try {
-      const created = [];
-      for (const item of newItems) {
-        const c = await api.addItem(item);
-        created.push(c);
-      }
+      const created = await api.addBulkItems(newItems);
       setItems(prev => [...created, ...prev]);
-      addToast(`${newItems.length} items added to inventory`, 'success');
+      addToast(`${created.length} items added to inventory`, 'success');
       return created;
     } catch {
       addToast('Failed to import items', 'error');

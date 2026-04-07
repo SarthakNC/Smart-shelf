@@ -1,6 +1,13 @@
 import { Activity, Plus, ShoppingCart, FileText, Trash2, Tag } from 'lucide-react';
-import { MOCK_ACTIVITY } from '../../lib/mock-data';
 import { cn } from '../../lib/utils';
+
+const MOCK_ACTIVITY = [
+  { id: '1', action: 'Added 20 pkt of Amul Milk', time: '2 hours ago', type: 'add' },
+  { id: '2', action: 'Marked 5 Yakult as sold', time: '3 hours ago', type: 'sold' },
+  { id: '3', action: 'Imported invoice #INV-0846', time: 'Yesterday', type: 'import' },
+  { id: '4', action: 'Created flash sale for Bread', time: 'Yesterday', type: 'sale' },
+  { id: '5', action: 'Deleted expired Nestle Milk Powder', time: '2 days ago', type: 'delete' },
+];
 
 const iconMap = {
   add: { icon: Plus, color: 'text-emerald-500', bg: 'bg-emerald-50' },
