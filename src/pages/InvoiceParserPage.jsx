@@ -10,16 +10,17 @@ import { parseInvoice } from '../lib/api';
 export default function InvoiceParserPage() {
   const { addBulkItems, addToast } = useInventory();
   const [rawText, setRawText] = useState('');
+  const [file, setFile] = useState(null);
   const [parsing, setParsing] = useState(false);
   const [parsedRows, setParsedRows] = useState([]);
   const [hasParsed, setHasParsed] = useState(false);
   const [importing, setImporting] = useState(false);
 
   const handleParse = async () => {
-    if (!rawText.trim()) return;
+    if (!rawText.trim() && !file) return;
     setParsing(true);
     try {
-      const results = await parseInvoice(rawText);
+      const results = await parseInvoice(rawText, file);
       setParsedRows(results);
       setHasParsed(true);
       if (results.length === 0) {
@@ -77,6 +78,7 @@ export default function InvoiceParserPage() {
     await addBulkItems(itemsToAdd);
     setParsedRows([]);
     setRawText('');
+    setFile(null);
     setHasParsed(false);
     setImporting(false);
   };
@@ -84,6 +86,7 @@ export default function InvoiceParserPage() {
   const handleReset = () => {
     setParsedRows([]);
     setRawText('');
+    setFile(null);
     setHasParsed(false);
   };
 
@@ -94,7 +97,7 @@ export default function InvoiceParserPage() {
       {/* Header */}
       <div>
         <h1 className="font-heading text-2xl font-bold text-brand-green-dark">Invoice Parser</h1>
-        <p className="text-sm text-brand-olive mt-1">Paste a supplier invoice and auto-extract items for your inventory</p>
+        <p className="text-sm text-brand-olive mt-1">Paste a supplier invoice or upload a document to auto-extract items</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -103,6 +106,8 @@ export default function InvoiceParserPage() {
           <InvoicePasteCard
             value={rawText}
             onChange={setRawText}
+            file={file}
+            onFileChange={setFile}
             onParse={handleParse}
             parsing={parsing}
           />

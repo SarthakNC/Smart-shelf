@@ -73,11 +73,26 @@ export async function getFlashSaleSuggestions() {
 
 // ─── Invoice Parser ──────────────────────────────────
 
-export async function parseInvoice(rawText) {
+export async function parseInvoice(rawText, file = null) {
+  let body, headers;
+
+  if (file) {
+    const formData = new FormData();
+    if (rawText) formData.append('rawText', rawText);
+    formData.append('invoiceFile', file);
+    
+    // When using FormData, omit Content-Type header so browser sets it with boundaries
+    body = formData;
+    headers = {};
+  } else {
+    body = JSON.stringify({ rawText });
+    headers = { 'Content-Type': 'application/json' };
+  }
+
   const res = await fetch(`${API_BASE}/invoice/parse`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ rawText }),
+    headers,
+    body,
   });
   return handleResponse(res);
 }

@@ -1,14 +1,20 @@
 import { Router } from 'express';
 import { GoogleGenAI, Type } from '@google/genai';
+import multer from 'multer';
+
+// Process files in memory
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
-// POST /api/invoice/parse — Parse raw invoice text
-router.post('/parse', async (req, res) => {
+// POST /api/invoice/parse — Parse raw invoice text OR pdf/image
+router.post('/parse', upload.single('invoiceFile'), async (req, res) => {
   try {
-    const { rawText } = req.body;
-    if (!rawText || !rawText.trim()) {
-      return res.status(400).json({ error: 'rawText is required' });
+    const rawText = req.body?.rawText;
+    const file = req.file;
+
+    if ((!rawText || !rawText.trim()) && !file) {
+      return res.status(400).json({ error: 'Please provide either rawText or upload an invoiceFile' });
     }
 
     if (!process.env.GEMINI_API_KEY) {
@@ -41,27 +47,57 @@ router.post('/parse', async (req, res) => {
       required: ["items"]
     };
 
-    const prompt = `
+    const promptText = `
     You are an expert data extraction assistant.
-    Extract the list of items from this messy supplier invoice text.
+    Extract the list of items from this supplier invoice.
     Ignore lines that are purely headers, footers, taxes, dates, or total amounts.
     Return strictly JSON matching the provided schema.
-
-    Here is the messy invoice text:
-    """
-    ${rawText}
-    """
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        responseSchema: responseSchema,
-        temperature: 0.1, // low temp for extraction
+    // Construct the payload for Gemini
+    const contents = [];
+    
+    // If text was provided, append it.
+    if (rawText && rawText.trim()) {
+      contents.push({ text: promptText + `\nHere is the messy invoice text:\n"""\n${rawText}\n"""` });
+    } else if (file) {
+      // If a file was uploaded, attach the prompt and the file's binary data inline.
+      contents.push({ text: promptText + `\nPlease analyze the attached invoice document.` });
+      contents.push({
+        inlineData: {
+          mimeType: file.mimetype,
+          data: file.buffer.toString('base64')
+        }
+      });
+    }
+
+    let response;
+    try {
+      response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: contents,
+        config: {
+          responseMimeType: 'application/json',
+          responseSchema: responseSchema,
+          temperature: 0.1, // low temp for extraction
+        }
+      });
+    } catch (modelErr) {
+      if (modelErr.status === 503 || String(modelErr.message).includes('503')) {
+        console.warn('Gemini 2.5 is busy, falling back to gemini-1.5-flash...');
+        response = await ai.models.generateContent({
+          model: 'gemini-1.5-flash',
+          contents: contents,
+          config: {
+            responseMimeType: 'application/json',
+            responseSchema: responseSchema,
+            temperature: 0.1,
+          }
+        });
+      } else {
+        throw modelErr;
       }
-    });
+    }
 
     const aiData = JSON.parse(response.text);
     const parsedItems = aiData.items || [];
